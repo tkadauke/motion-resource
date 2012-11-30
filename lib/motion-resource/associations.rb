@@ -24,8 +24,10 @@ module MotionResource
           if block.nil?
             instance_variable_get("@#{name}") || []
           else
-            cached = instance_variable_get("@#{name}")
-            block.call(cached) and return if cached
+            if cached = instance_variable_get("@#{name}")
+              block.call(cached)
+              return
+            end
             
             Object.const_get(name.to_s.classify).find_all(params.call(self)) do |results|
               if results && results.first && results.first.respond_to?("#{backwards_association}=")
@@ -59,8 +61,10 @@ module MotionResource
           if block.nil?
             instance_variable_get("@#{name}")
           else
-            cached = instance_variable_get("@#{name}")
-            block.call(cached) and return if cached
+            if cached = instance_variable_get("@#{name}")
+              block.call(cached)
+              return
+            end
           
             Object.const_get(name.to_s.classify).find(self.send("#{name}_id"), params.call(self)) do |result|
               instance_variable_set("@#{name}", result)
