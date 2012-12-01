@@ -46,9 +46,11 @@ module MotionResource
         if self.default_url_options
           options.merge!(self.default_url_options)
         end
+        logger.log "#{method.upcase} #{complete_url(url)}"
         BubbleWrap::HTTP.send(method, complete_url(url), options) do |response|
           if response.ok?
             body = response.body.to_str.strip rescue nil
+            logger.log "response: #{body}"
             if body.blank?
               block.call(response, {})
             else
