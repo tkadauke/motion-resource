@@ -13,6 +13,7 @@ module MotionResource
     
     class << self
       def instantiate(json)
+        json = json.symbolize_keys
         raise ArgumentError, "No :id parameter given for #{self.name}.instantiate" unless json[:id]
         
         klass = if json[:type]
