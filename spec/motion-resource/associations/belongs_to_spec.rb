@@ -70,6 +70,18 @@ describe "belongs_to" do
         @comment.post.should == @result
       end
     end
+  
+    it "should give HTTP response to block" do
+      @comment = Comment.new(:post_id => 1)
+      @comment.post do |results, response|
+        @response = response
+        resume
+      end
+      
+      wait_max 1.0 do
+        @response.should.be.ok
+      end
+    end
   end
   
   describe "writer" do

@@ -83,6 +83,18 @@ describe "has_many" do
         @post.comments.should == @results
       end
     end
+  
+    it "should give HTTP response to block" do
+      @post = Post.new
+      @post.comments do |results, response|
+        @response = response
+        resume
+      end
+      
+      wait_max 1.0 do
+        @response.should.be.ok
+      end
+    end
   end
   
   describe "writer" do

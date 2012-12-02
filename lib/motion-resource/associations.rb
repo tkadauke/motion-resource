@@ -29,14 +29,14 @@ module MotionResource
               return
             end
             
-            Object.const_get(name.to_s.classify).find_all(params.call(self)) do |results|
+            Object.const_get(name.to_s.classify).find_all(params.call(self)) do |results, response|
               if results && results.first && results.first.respond_to?("#{backwards_association}=")
                 results.each do |result|
                   result.send("#{backwards_association}=", self)
                 end
               end
               instance_variable_set("@#{name}", results)
-              block.call(results)
+              MotionResource::Base.request_block_call(block, results, response)
             end
           end
         end
@@ -65,10 +65,10 @@ module MotionResource
               block.call(cached)
               return
             end
-          
-            Object.const_get(name.to_s.classify).find(self.send("#{name}_id"), params.call(self)) do |result|
+            
+            Object.const_get(name.to_s.classify).find(self.send("#{name}_id"), params.call(self)) do |result, response|
               instance_variable_set("@#{name}", result)
-              block.call(result)
+              MotionResource::Base.request_block_call(block, result, response)
             end
           end
         end

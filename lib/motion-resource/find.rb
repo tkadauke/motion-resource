@@ -47,8 +47,7 @@ module MotionResource
           end
         end
       end
-    
-    private
+      
       def request_block_call(block, default_arg, extra_arg)
         if block
           if block.arity == 1
