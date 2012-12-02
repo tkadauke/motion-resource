@@ -60,6 +60,15 @@ describe "has_many" do
       end
     end
     
+    it "should give cached HTTP response immediately if exist when called with a block" do
+      @post = Post.new
+      @post.comments = [Comment.new]
+      @post.instance_variable_set(:@comments_response, "Test response")
+      @post.comments do |results, response|
+        response.should == "Test response"
+      end
+    end
+    
     it "should assign backward associations when fetching resources" do
       @post = Post.new
       @post.comments do |results|

@@ -59,6 +59,15 @@ describe "belongs_to" do
       end
     end
     
+    it "should give cached HTTP response immediately if exist when called with a block" do
+      @comment = Comment.new
+      @comment.post = Post.new
+      @comment.instance_variable_set(:@post_response, "Test response")
+      @comment.post do |result, response|
+        response.should == "Test response"
+      end
+    end
+    
     it "should cache resource after fetching" do
       @comment = Comment.new(:post_id => 1)
       @comment.post do |result|

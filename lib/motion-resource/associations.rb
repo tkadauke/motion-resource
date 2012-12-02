@@ -25,7 +25,8 @@ module MotionResource
             instance_variable_get("@#{name}") || []
           else
             if cached = instance_variable_get("@#{name}")
-              block.call(cached)
+              cached_response = instance_variable_get("@#{name}_response")
+              MotionResource::Base.request_block_call(block, cached, cached_response)
               return
             end
             
@@ -36,6 +37,7 @@ module MotionResource
                 end
               end
               instance_variable_set("@#{name}", results)
+              instance_variable_set("@#{name}_response", response)
               MotionResource::Base.request_block_call(block, results, response)
             end
           end
@@ -62,12 +64,14 @@ module MotionResource
             instance_variable_get("@#{name}")
           else
             if cached = instance_variable_get("@#{name}")
-              block.call(cached)
+              cached_response = instance_variable_get("@#{name}_response")
+              MotionResource::Base.request_block_call(block, cached, cached_response)
               return
             end
             
             Object.const_get(name.to_s.classify).find(self.send("#{name}_id"), params.call(self)) do |result, response|
               instance_variable_set("@#{name}", result)
+              instance_variable_set("@#{name}_response", response)
               MotionResource::Base.request_block_call(block, result, response)
             end
           end
