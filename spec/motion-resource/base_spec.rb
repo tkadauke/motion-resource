@@ -51,4 +51,12 @@ describe "base" do
       shape1.contents.should == 'something'
     end
   end
+  
+  describe "subclasses" do
+    it "should keep track of subclasses" do
+      MotionResource::Base.subclasses.should.include(Shape)
+      Shape.subclasses.should.include(Rectangle)
+      MotionResource::Base.subclasses.should.not.include(Rectangle)
+    end
+  end
 end

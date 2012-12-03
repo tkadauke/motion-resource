@@ -2,6 +2,14 @@ module MotionResource
   class Base
     attr_accessor :id
     
+    def self.subclasses
+      @subclasses ||= []
+    end
+    
+    def self.inherited(subclass)
+      self.subclasses << subclass
+    end
+    
     def initialize(params = {})
       @new_record = true
       update_attributes(params)
