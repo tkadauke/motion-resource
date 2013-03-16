@@ -12,22 +12,22 @@ Add MotionResource to your Gemfile, like this:
 
 Consider this example for a fictional blog API.
 
-    class User < RemoteModule::RemoteModel
+    class User < MotionResource::Base
       attr_accessor :id
 
       has_many :posts
 
-      collection_url "users"
-      member_url "users/:id"
+      self.collection_url = "users"
+      self.member_url = "users/:id"
     end
 
-    class Post < RemoteModule::RemoteModel
+    class Post < MotionResource::Base
       attr_accessor :id, :user_id, :title, :text
 
       belongs_to :user
 
-      collection_url "users/:user_id/posts"
-      member_url "users/:user_id/posts/:id"
+      self.collection_url = "users/:user_id/posts"
+      self.member_url = "users/:user_id/posts/:id"
     end
 
 Now, we can access a user's posts like that:
