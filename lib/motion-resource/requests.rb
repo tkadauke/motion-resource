@@ -7,7 +7,7 @@ module MotionResource
         self.class.send(method, *args, &block)
       end
     end
-    
+
     class << self
       def get(url, params = {}, &block)
         http_call(:get, url, params, &block)
@@ -25,6 +25,10 @@ module MotionResource
         http_call(:delete, url, params, &block)
       end
 
+      def on_auth_failure(&block)
+        @on_auth_failure = block
+      end
+
     private
       def complete_url(fragment)
         if fragment[0..3] == "http"
@@ -34,7 +38,7 @@ module MotionResource
       end
 
       def http_call(method, url, call_options = {}, &block)
-        options = call_options 
+        options = call_options
         options.merge!(MotionResource::Base.default_url_options || {})
         url += self.extension
         if query = options.delete(:query)
@@ -56,6 +60,8 @@ module MotionResource
             else
               block.call response, BubbleWrap::JSON.parse(body)
             end
+          elsif response.status_code.to_s =~ /401/ && @on_auth_failure
+            @on_auth_failure.call
           else
             block.call response, nil
           end
