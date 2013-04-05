@@ -38,20 +38,21 @@ module MotionResource
       end
 
       def http_call(method, url, call_options = {}, &block)
+        url = complete_url(url)
+
         options = call_options
         options.merge!(MotionResource::Base.default_url_options || {})
-        url += self.extension
         if query = options.delete(:query)
-          if url.index("?").nil?
-            url += "?"
-          end
-          url += query.map{|k,v| "#{k}=#{v}"}.join('&')
+          url.build_query_string!(query)
         end
         if self.default_url_options
           options.merge!(self.default_url_options)
         end
-        logger.log "#{method.upcase} #{complete_url(url)}"
-        BubbleWrap::HTTP.send(method, complete_url(url), options) do |response|
+        logger.log "#{method.upcase} #{url}"
+
+        url.insert_extension!(self.extension)
+
+        BubbleWrap::HTTP.send(method, url, options) do |response|
           if response.ok?
             body = response.body.to_str.strip rescue nil
             logger.log "response: #{body}"
