@@ -37,6 +37,8 @@ class String
   end
 
   def insert_extension!(extension)
+    return self if extension.blank?
+    
     url = NSURL.URLWithString(self)
     extension = extension.gsub(".", "")
     self.replace url.URLByAppendingPathExtension(extension).absoluteString

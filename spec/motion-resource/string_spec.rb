@@ -13,6 +13,11 @@ describe "String" do
     string.should == "accounts/fabulous.json"
   end
 
+  it "should not insert extension if it is blank" do
+    string = "accounts/fabulous".insert_extension!("")
+    string.should == "accounts/fabulous"
+  end
+
   it "should add a query string for non-url params" do
     string = "accounts/fabulous".build_query_string!(foo: 10, moo: "rar")
     string.should == "accounts/fabulous?foo=10&moo=rar"
