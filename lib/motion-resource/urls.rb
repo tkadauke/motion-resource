@@ -1,8 +1,8 @@
 module MotionResource
   class Base
-    class_inheritable_accessor :collection_url, :member_url
-    class_inheritable_accessor :root_url, :default_url_options
-    class_inheritable_accessor :extension
+    class_attribute :collection_url, :member_url
+    class_attribute :root_url, :default_url_options
+    class_attribute :extension
     self.extension = '.json'
     
     class << self

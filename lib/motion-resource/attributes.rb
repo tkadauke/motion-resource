@@ -1,6 +1,7 @@
 module MotionResource
   class Base
-    class_inheritable_array :attributes
+    class_attribute :attributes
+    self.attributes = []
     
     class << self
       def attribute(*fields)

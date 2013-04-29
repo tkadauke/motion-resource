@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 $:.unshift("/Library/RubyMotion/lib")
 require 'motion/project'
-require 'motion-support'
 require 'motion-resource'
 
 Motion::Project::App.setup do |app|
   # Use `rake config' to see complete project settings.
   app.name = 'Colr'
+  app.detect_dependencies = false
 end

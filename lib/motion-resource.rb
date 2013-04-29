@@ -1,5 +1,4 @@
-require "motion-resource/version"
+require 'motion-support'
 require 'bubble-wrap'
-Dir.glob(File.join(File.dirname(__FILE__), 'motion-resource/*.rb')).each do |file|
-  BW.require file
-end
+
+Motion::Require.all(Dir.glob(File.expand_path('../motion-resource/**/*.rb', __FILE__)))

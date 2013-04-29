@@ -1,6 +1,6 @@
 module MotionResource
   class Base
-    class_inheritable_accessor :logger
+    class_attribute :logger
     self.logger = MotionSupport::NullLogger.new
   end
 end
