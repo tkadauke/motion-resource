@@ -50,7 +50,7 @@ module MotionResource
         end
         logger.log "#{method.upcase} #{url}"
 
-        url.insert_extension!(self.extension)
+        url.insert_extension!(self.extension) unless self.extension.blank?
 
         BubbleWrap::HTTP.send(method, url, options) do |response|
           if response.ok?
