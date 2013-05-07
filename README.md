@@ -22,13 +22,16 @@ Consider this example for a fictional blog API.
     end
 
     class Post < MotionResource::Base
-      attr_accessor :id, :user_id, :title, :text
+      attr_accessor :id
+      attribute :user_id, :title, :text
 
       belongs_to :user
 
       self.collection_url = "users/:user_id/posts"
       self.member_url = "users/:user_id/posts/:id"
     end
+
+Only attributes declared with `attribute` are transmitted on save. I.e. attributes declared with `attr_accessor` are considered read-only with respect to the JSON API.
 
 Now, we can access a user's posts like that:
 
