@@ -1,14 +1,8 @@
 module MotionResource
   class Base
+    include MotionSupport::DescendantsTracker
+    
     attr_accessor :id
-    
-    def self.subclasses
-      @subclasses ||= []
-    end
-    
-    def self.inherited(subclass)
-      self.subclasses << subclass
-    end
     
     def initialize(params = {})
       @new_record = true

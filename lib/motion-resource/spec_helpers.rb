@@ -8,7 +8,7 @@ module MotionResource
     
     def forget_instances_of(klass)
       klass.identity_map.clear
-      klass.subclasses.each do |subklass|
+      klass.descendants.each do |subklass|
         forget_instances_of(subklass)
       end
     end
