@@ -48,9 +48,10 @@ module MotionResource
         if self.default_url_options
           options.merge!(self.default_url_options)
         end
-        logger.log "#{method.upcase} #{url}"
 
         url.insert_extension!(self.extension)
+
+        logger.log "#{method.upcase} #{url}"
 
         BubbleWrap::HTTP.send(method, url, options) do |response|
           if response.ok?
