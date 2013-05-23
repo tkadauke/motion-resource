@@ -2,6 +2,9 @@ module MotionResource
   class Base
     include MotionSupport::DescendantsTracker
     
+    class_attribute :primary_key
+    self.primary_key = :id
+    
     attr_accessor :id
     
     def initialize(params = {})
@@ -16,7 +19,7 @@ module MotionResource
     class << self
       def instantiate(json)
         json = json.symbolize_keys
-        raise ArgumentError, "No :id parameter given for #{self.name}.instantiate" unless json[:id]
+        raise ArgumentError, "No :#{primary_key} parameter given for #{self.name}.instantiate" unless json[primary_key]
         
         klass = if json[:type]
           begin
@@ -28,11 +31,11 @@ module MotionResource
           self
         end
         
-        if result = klass.recall(json[:id])
+        if result = klass.recall(json[primary_key])
           result.update_attributes(json)
         else
           result = klass.new(json)
-          klass.remember(result.id, result)
+          klass.remember(result.send(result.primary_key), result)
         end
         result.send(:instance_variable_set, "@new_record", false)
         result

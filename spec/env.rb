@@ -40,3 +40,8 @@ end
 class Rectangle < Shape
   attribute :size
 end
+
+class Membership < MotionResource::Base
+  self.primary_key = :membership_id
+  attr_accessor :membership_id
+end

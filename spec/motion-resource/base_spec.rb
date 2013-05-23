@@ -1,6 +1,16 @@
 describe "base" do
-  it "should define the id method" do
-    Post.new.should.respond_to :id
+  describe "primary key" do
+    it "should have a default primary key" do
+      Post.primary_key.should == :id
+    end
+    
+    it "should be overridable" do
+      Membership.primary_key.should == :membership_id
+    end
+    
+    it "should define the id method" do
+      Post.new.should.respond_to :id
+    end
   end
   
   it "should set new_record to true when calling new" do
@@ -20,6 +30,11 @@ describe "base" do
     it "should instantiate concrete type if given in json" do
       shape = Shape.instantiate(:id => 1, :type => 'Rectangle')
       shape.should.is_a Rectangle
+    end
+    
+    it "should instantiate with non-standard primary key" do
+      membership = Membership.instantiate(:membership_id => 1)
+      membership.should.is_a Membership
     end
     
     it "should instantiate base type if concrete type does not exist" do
