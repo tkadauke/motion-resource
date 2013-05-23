@@ -16,14 +16,22 @@ module MotionResource
           end
         end
       end
+      
+      def collection_url_or_default
+        collection_url || name.underscore.pluralize
+      end
+      
+      def member_url_or_default
+        member_url || "#{name.underscore.pluralize}/:#{primary_key}"
+      end
     end
 
     def collection_url(params = {})
-      self.class.collection_url.fill_url_params(params, self)
+      self.class.collection_url_or_default.fill_url_params(params, self)
     end
 
     def member_url(params = {})
-      self.class.member_url.fill_url_params(params, self)
+      self.class.member_url_or_default.fill_url_params(params, self)
     end
   end
 end

@@ -2,11 +2,11 @@ module MotionResource
   class Base
     class << self
       def find(id, params = {}, &block)
-        fetch_member(member_url.fill_url_params(params.merge(id: id)), &block)
+        fetch_member(member_url_or_default.fill_url_params(params.merge(id: id)), &block)
       end
 
       def find_all(params = {}, &block)
-        fetch_collection(collection_url.fill_url_params(params), &block)
+        fetch_collection(collection_url_or_default.fill_url_params(params), &block)
       end
       
       def fetch_member(url, &block)
