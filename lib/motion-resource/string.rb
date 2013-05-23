@@ -27,7 +27,7 @@ class String
     # fake a url so we avoid regex nastiness with URL's
     url = NSURL.URLWithString("http://blah.com/#{self}")
     # build our query string (needs encoding support!)
-    query_string = params.map{|k,v| "#{k}=#{v}"}.join('&')
+    query_string = params.to_query
     if url.query.nil? || url.query.empty?
       # strip the beginning / and add the query
       self.replace "#{url.path[1..-1]}?#{query_string}"
