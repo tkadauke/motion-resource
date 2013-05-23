@@ -17,7 +17,13 @@ module MotionResource
         end
       end
 
-      def has_many(name, params = lambda { |o| Hash.new })
+      def has_many(name, options = {})
+        default_options = {
+          :params => lambda { |o| Hash.new },
+          :class_name => name.to_s.classify
+        }
+        options = default_options.merge(options)
+        
         backwards_association = self.name.underscore
         
         define_method name do |&block|
@@ -29,8 +35,10 @@ module MotionResource
               MotionResource::Base.request_block_call(block, cached, cached_response)
               return
             end
+
+            klass = options[:class_name].constantize
             
-            Object.const_get(name.to_s.classify).find_all(params.call(self)) do |results, response|
+            klass.find_all(options[:params].call(self)) do |results, response|
               if results && results.first && results.first.respond_to?("#{backwards_association}=")
                 results.each do |result|
                   result.send("#{backwards_association}=", self)
@@ -44,7 +52,8 @@ module MotionResource
         end
         
         define_method "#{name}=" do |array|
-          klass = Object.const_get(name.to_s.classify)
+          klass = options[:class_name].constantize
+          
           instance_variable_set("@#{name}", [])
           
           array.each do |value|

@@ -20,6 +20,27 @@ describe "has_many" do
     post.comments.should == []
   end
   
+  describe "custom class name" do
+    extend WebStub::SpecHelpers
+  
+    before do
+      stub_request(:get, "http://example.com/posts.json").to_return(json: [{ id: 1, text: 'Whats up?' }])
+    end
+  
+    it "should fetch resources when called with a block" do
+      @post = Post.new
+      @post.parent_posts do |results|
+        @results = results
+        resume
+      end
+    
+      wait_max 1.0 do
+        @results.size.should == 1
+        @results.first.text.should == 'Whats up?'
+      end
+    end
+  end
+  
   describe "reader" do
     extend WebStub::SpecHelpers
     

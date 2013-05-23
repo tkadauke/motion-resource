@@ -6,6 +6,7 @@ class Post < MotionResource::Base
   self.member_url = 'posts/:id'
   
   has_many :comments
+  has_many :parent_posts, :class_name => 'Post'
 end
 
 class Comment < MotionResource::Base
