@@ -43,6 +43,20 @@ Now, we can access a user's posts like that:
 
 Note that the blocks are called asynchronously.
 
+## Error Handling
+
+Pass a second block parameter to capture error information:
+
+    User.find_all do |users, response|
+      if response.ok?
+        puts users.inspect
+      else
+        App.alert response.error_message
+      end
+    end
+
+`response` will be an instance of [BubbleWrap::HTTP::Response](http://rdoc.info/github/rubymotion/BubbleWrap/master/file/README.md#HTTP)
+
 ## Setup
 
 You can configure every model separately; however you will most likely want to configure things like the root_url the same for every model:
@@ -54,3 +68,4 @@ Don't forget the trailing '/' here!
 # Forking
 
 Feel free to fork and submit pull requests!
+
