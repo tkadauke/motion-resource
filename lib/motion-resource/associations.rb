@@ -28,7 +28,7 @@ module MotionResource
         
         define_method name do |&block|
           if block.nil?
-            instance_variable_get("@#{name}") || []
+            instance_variable_get("@#{name}") || instance_variable_set("@#{name}", [])
           else
             if cached = instance_variable_get("@#{name}")
               cached_response = instance_variable_get("@#{name}_response")
