@@ -65,6 +65,18 @@ describe "crud" do
         @response.should.not.be.ok
       end
     end
+    
+    it "should include association" do
+      stub_request(:post, "http://example.com/posts.json").to_return(body: "")
+      Post.new.create(:include => :comments) do |result, response|
+        @response = response
+        resume
+      end
+    
+      wait_max 1.0 do
+        @response.should.be.ok
+      end
+    end
   end
   
   describe "update" do
@@ -129,6 +141,19 @@ describe "crud" do
     
       wait_max 1.0 do
         @response.should.not.be.ok
+      end
+    end
+    
+    
+    it "should include association" do
+      stub_request(:put, "http://example.com/posts/10.json").to_return(body: "")
+      Post.instantiate(:id => 10).update(:include => :comments) do |result, response|
+        @response = response
+        resume
+      end
+    
+      wait_max 1.0 do
+        @response.should.be.ok
       end
     end
   end
