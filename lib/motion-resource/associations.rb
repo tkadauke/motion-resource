@@ -89,6 +89,7 @@ module MotionResource
         define_method "#{name}=" do |value|
           klass = Object.const_get(name.to_s.classify)
           value = klass.instantiate(value) if value.is_a?(Hash)
+          instance_variable_set("@#{name}_id", value.id) if value.respond_to?(:id)
           instance_variable_set("@#{name}", value)
         end
         

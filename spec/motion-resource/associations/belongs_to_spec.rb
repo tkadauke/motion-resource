@@ -119,6 +119,18 @@ describe "belongs_to" do
       comment.post = post
       comment.post.should == post
     end
+    
+    it "should set association id when assigned with hash" do
+      comment = Comment.new
+      comment.post = { :id => 10 }
+      comment.post_id.should == 10
+    end
+    
+    it "should set association id when assigned with object" do
+      comment = Comment.new
+      comment.post = Post.new(:id => 10)
+      comment.post_id.should == 10
+    end
   end
   
   describe "piggybacking" do
