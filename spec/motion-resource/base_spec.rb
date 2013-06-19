@@ -65,5 +65,15 @@ describe "base" do
       shape1.should.be.identical_to shape2
       shape1.contents.should == 'something'
     end
+    
+    it "should instantiate with ID number" do
+      shape = Shape.instantiate(3)
+      shape.id.should == 3
+    end
+    
+    it "should instantiate with ID string" do
+      shape = Shape.instantiate("5")
+      shape.id.should == 5
+    end
   end
 end
