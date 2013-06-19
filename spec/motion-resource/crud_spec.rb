@@ -77,6 +77,23 @@ describe "crud" do
         @response.should.be.ok
       end
     end
+    
+    it "should include association with _attributes suffix" do
+      stub_request(:post, "http://example.com/posts.json").to_return(body: "")
+      Post.new.create(:include => :comments_attributes) do |result, response|
+        @response = response
+        resume
+      end
+    
+      wait_max 1.0 do
+        @response.should.be.ok
+      end
+    end
+    
+    it "should raise error when included association is not found" do
+      stub_request(:post, "http://example.com/posts.json").to_return(body: "")
+      lambda { Post.new.create(:include => :foobar) { |result, response| } }.should.raise(ArgumentError)
+    end
   end
   
   describe "update" do

@@ -47,7 +47,18 @@ module MotionResource
   protected
     def build_payload(options)
       includes = Array(options[:include]).inject({}) do |hash, var|
-        hash[var.to_s] = send(var).map(&:attributes)
+        if var.to_s =~ /^(.*?)_attributes$/
+          association_name = $1
+        else
+          association_name = var.to_s
+        end
+        
+        if respond_to?(association_name)
+          hash[var.to_s] = send(association_name).map(&:attributes)
+        else
+          raise ArgumentError, "No association #{var} found"
+        end
+        
         hash
       end
       
