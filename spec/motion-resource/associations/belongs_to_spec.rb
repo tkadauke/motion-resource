@@ -91,6 +91,21 @@ describe "belongs_to" do
         @response.should.be.ok
       end
     end
+
+    it "should return correct type of object" do
+      stub_request(:get, "http://example.com/users/1.json").to_return(json: { id: 1, text: 'Hello' })
+      @comment = Comment.new(:account_id => 1)
+      @comment.account do |results, response|
+        @account = results
+        @response = response
+        resume
+      end
+      wait_max 1.0 do
+        @response.should.be.ok
+        @account.class.should == User
+      end
+    end
+
   end
   
   describe "writer" do
@@ -99,11 +114,18 @@ describe "belongs_to" do
       comment.post = { :id => 1, :text => 'Hello' }
       comment.post.should.is_a Post
     end
+
+    it "should convert hash to proper type" do
+      comment = Comment.new
+      comment.account = { :id => 1, :text => 'Hello' }
+      comment.account.class.should == User
+    end
     
     it "should set attributes when assigned with hash" do
       comment = Comment.new
       comment.post = { :id => 1, :text => 'Hello' }
       comment.post.text.should == 'Hello'
+      comment.post.class.should == Post
     end
     
     it "should use identity map when assigned with hash" do
