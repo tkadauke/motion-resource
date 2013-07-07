@@ -114,11 +114,18 @@ describe "belongs_to" do
       comment.post = { :id => 1, :text => 'Hello' }
       comment.post.should.is_a Post
     end
+
+    it "should convert hash to proper type" do
+      comment = Comment.new
+      comment.account = { :id => 1, :text => 'Hello' }
+      comment.account.class.should == User
+    end
     
     it "should set attributes when assigned with hash" do
       comment = Comment.new
       comment.post = { :id => 1, :text => 'Hello' }
       comment.post.text.should == 'Hello'
+      comment.post.class.should == Post
     end
     
     it "should use identity map when assigned with hash" do
