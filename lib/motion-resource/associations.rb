@@ -73,7 +73,6 @@ module MotionResource
           :class_name => name.to_s.classify
         }
         options = default_options.merge(options)
-        klass = Object.const_get(options[:class_name])
 
         define_method name do |&block|
           if block.nil?
@@ -85,6 +84,7 @@ module MotionResource
               return
             end
             
+            klass = Object.const_get(options[:class_name])
             klass.find(self.send("#{name}_id"), options[:params].call(self)) do |result, response|
               instance_variable_set("@#{name}", result)
               instance_variable_set("@#{name}_response", response)
@@ -94,7 +94,7 @@ module MotionResource
         end
         
         define_method "#{name}=" do |value|
-          value = klass.instantiate(value) if value.is_a?(Hash)
+          value = Object.const_get(options[:class_name]).instantiate(value) if value.is_a?(Hash)
           instance_variable_set("@#{name}", value)
         end
         
