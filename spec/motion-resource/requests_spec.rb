@@ -117,16 +117,17 @@ describe "requests" do
     end
   end
 
-  # it "should call a block given to on_auth_failure on 401" do
-  #   stub_request(:get, "http://example.com/comments/10.json").to_return(status_code: 401)
-  #   @fail = false
-  #   Comment.on_auth_failure { @fail = true; resume }
-  #   Comment.new.get("comments/10") do |response, json|
-  #     resume
-  #   end
+  it "should call a block given to on_auth_failure on 401" do
+    stub_request(:get, "http://example.com/comments/10.json").to_return(status_code: 401)
+    @fail = false
+    Comment.on_auth_failure{ @fail = true }
 
-  #   wait_max 1.0 do
-  #     @fail.should == true
-  #   end
-  # end
+    Comment.new.get("comments/10") do |response, json|
+      resume
+    end
+
+    wait_max 1.0 do
+      @fail.should == true
+    end
+  end
 end
