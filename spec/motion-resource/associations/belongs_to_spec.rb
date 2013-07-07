@@ -91,6 +91,21 @@ describe "belongs_to" do
         @response.should.be.ok
       end
     end
+
+    it "should return correct type of object" do
+      stub_request(:get, "http://example.com/users/1.json").to_return(json: { id: 1, text: 'Hello' })
+      @comment = Comment.new(:account_id => 1)
+      @comment.account do |results, response|
+        @account = results
+        @response = response
+        resume
+      end
+      wait_max 1.0 do
+        @response.should.be.ok
+        @account.class.should == User
+      end
+    end
+
   end
   
   describe "writer" do
