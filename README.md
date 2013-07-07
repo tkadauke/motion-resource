@@ -43,6 +43,19 @@ Now, we can access a user's posts like that:
 
 Note that the blocks are called asynchronously.
 
+## URL encoding
+
+A different url encoding implementation can be substituted by setting MotionResource::Base.url_encoder.
+For instance to include the fixed parameter 'foo' on every request:
+
+    class CustomEncoder < MotionResource::UrlEncoder
+        def build_query_string(url, params = {})
+            params[:foo] => 42
+            super(url,params)
+        end
+    end
+    MotionResource::Base.url_encoder = CustomEncoder.new
+
 ## Error Handling
 
 Pass a second block parameter to capture error information:
