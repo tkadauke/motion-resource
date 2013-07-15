@@ -22,6 +22,12 @@ class Comment < MotionResource::Base
   custom_urls :by_user_url => 'comments/by_user/:name'
 end
 
+class CustomRootComment < Comment
+  def self.json_root
+    'custom'
+  end
+end
+
 class User < MotionResource::Base
   self.member_url = 'users/:id'
   
