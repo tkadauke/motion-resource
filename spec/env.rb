@@ -1,4 +1,5 @@
 MotionResource::Base.root_url = 'http://example.com/'
+
 class Post < MotionResource::Base
   attr_accessor :text
   
@@ -10,7 +11,6 @@ end
 
 class User < MotionResource::Base
   self.member_url = 'users/:id'
-  
   has_one :profile
 end
 
@@ -22,9 +22,7 @@ class Comment < MotionResource::Base
   
   belongs_to :post
   belongs_to :account, :class_name=>'User'
-
   scope :recent, :url => 'comments/recent'
-  
   custom_urls :by_user_url => 'comments/by_user/:name'
 end
 
