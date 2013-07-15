@@ -28,9 +28,9 @@ module MotionResource
             if json.class == Array
               arr_rep = json
             elsif json.class == Hash
-              plural = self.name.underscore.pluralize
-              if json.has_key?(plural) || json.has_key?(plural.to_sym)
-                arr_rep = json[plural] || json[plural.to_sym]
+              root = self.json_root
+              if json.has_key?(root) || json.has_key?(root.to_sym)
+                arr_rep = json[root] || json[root.to_sym]
               end
             else
               # the returned data was something else
@@ -38,9 +38,11 @@ module MotionResource
               request_block_call(block, nil, response)
               return
             end
-            arr_rep.each { |one_obj_hash|
-              objs << instantiate(one_obj_hash)
-            }
+            if arr_rep
+              arr_rep.each { |one_obj_hash|
+                objs << instantiate(one_obj_hash)
+              }
+            end
             request_block_call(block, objs, response)
           else
             request_block_call(block, nil, response)

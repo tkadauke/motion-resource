@@ -67,7 +67,12 @@ module MotionResource
         end
       end
 
-      def belongs_to(name, params = lambda { |o| Hash.new })
+      def belongs_to(name, options = {})
+        default_options = {
+          :params => lambda { |o| Hash.new },
+          :class_name => name.to_s.classify
+        }
+        options = default_options.merge(options)
         define_method name do |&block|
           if block.nil?
             instance_variable_get("@#{name}")
@@ -77,8 +82,8 @@ module MotionResource
               MotionResource::Base.request_block_call(block, cached, cached_response)
               return
             end
-            
-            Object.const_get(name.to_s.classify).find(self.send("#{name}_id"), params.call(self)) do |result, response|
+            klass = Object.const_get(options[:class_name])
+            klass.find(self.send("#{name}_id"), options[:params].call(self)) do |result, response|
               instance_variable_set("@#{name}", result)
               instance_variable_set("@#{name}_response", response)
               MotionResource::Base.request_block_call(block, result, response)
@@ -87,8 +92,7 @@ module MotionResource
         end
         
         define_method "#{name}=" do |value|
-          klass = Object.const_get(name.to_s.classify)
-          value = klass.instantiate(value) if value.is_a?(Hash)
+          value = Object.const_get(options[:class_name]).instantiate(value) if value.is_a?(Hash)
           instance_variable_set("@#{name}_id", value.id) if value.respond_to?(:id)
           instance_variable_set("@#{name}", value)
         end

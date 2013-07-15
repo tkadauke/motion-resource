@@ -76,6 +76,20 @@ describe "find" do
     end
   end
 
+  it "should allow hash JSON response with custom JSON root" do
+    stub_request(:get, "http://example.com/bar.json").to_return(json: { custom: [{ id: 10, text: '42' }] })
+    CustomRootComment.fetch_collection("bar") do |result|
+      @result = result
+      resume
+    end
+    
+    wait_max 1.0 do
+      @result.should.is_a Array
+      @result.first.should.is_a CustomRootComment
+      @result.first.text.should == '42'
+    end
+  end
+
   it "should give nil object if fetching collection fails" do
     stub_request(:get, "http://example.com/bar.json").to_return(status_code: 404)
     Comment.fetch_collection("bar") do |result|
