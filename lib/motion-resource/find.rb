@@ -6,7 +6,7 @@ module MotionResource
       end
 
       def find_all(params = {}, &block)
-        fetch_collection(self.url_encoder.fill_url_params( collection_url_or_default, params), &block)
+        fetch_collection(self.url_encoder.fill_url_params(collection_url_or_default, params), &block)
       end
       
       def fetch_member(url, &block)

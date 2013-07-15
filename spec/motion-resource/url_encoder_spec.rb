@@ -9,7 +9,7 @@ describe "url encoder" do
   end
 
   it "should fill url params from params hash" do
-    string = @encoder.fill_url_params("accounts/:id/users/:name", {id: 10, name: 'john' } )
+    string = @encoder.fill_url_params("accounts/:id/users/:name", {id: 10, name: 'john'})
     string.should == "accounts/10/users/john"
   end
 
@@ -47,11 +47,11 @@ describe "url encoder" do
   end
 
   it "should not crash when a param is unknown" do
-    lambda { @encoder.fill_url_params("accounts/:id",{}) }.should.not.raise
+    lambda { @encoder.fill_url_params("accounts/:id", {}) }.should.not.raise
   end
 
   it "should not crash when params hash contains an unused value" do
-    lambda { @encoder.fill_url_params("accounts",{foo:'bar'}) }.should.not.raise
+    lambda { @encoder.fill_url_params("accounts", {foo:'bar'}) }.should.not.raise
   end
 
 end

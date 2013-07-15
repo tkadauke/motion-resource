@@ -1,9 +1,8 @@
 module MotionResource
   class UrlEncoder
-
     def fill_url_params(url, params = {}, delegate = nil)
       params ||= {}
-      url = url.split( '/' ).collect { |path|
+      url = url.split('/').collect { |path|
         ret = path
         if path[0] == ':'
           path_sym = path[1..-1].to_sym
@@ -18,7 +17,7 @@ module MotionResource
 
         ret
       }.join '/'
-      self.build_query_string( url, params )
+      self.build_query_string(url, params)
     end
 
     def build_query_string(url, params = {})
@@ -42,6 +41,5 @@ module MotionResource
       extension = extension.gsub(".", "")
       url.URLByAppendingPathExtension(extension).absoluteString
     end
-
   end
 end
