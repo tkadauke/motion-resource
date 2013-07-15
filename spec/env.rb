@@ -9,11 +9,6 @@ class Post < MotionResource::Base
   has_many :parent_posts, :class_name => 'Post'
 end
 
-class User < MotionResource::Base
-  self.member_url = 'users/:id'
-  has_one :profile
-end
-
 class Comment < MotionResource::Base
   attr_accessor :post_id, :account_id, :text
   
@@ -21,9 +16,21 @@ class Comment < MotionResource::Base
   self.collection_url = 'comments'
   
   belongs_to :post
-  belongs_to :account, :class_name=>'User'
+  belongs_to :account, :class_name => 'User'
   scope :recent, :url => 'comments/recent'
   custom_urls :by_user_url => 'comments/by_user/:name'
+end
+
+class CustomRootComment < Comment
+  def self.json_root
+    'custom'
+  end
+end
+
+class User < MotionResource::Base
+  self.member_url = 'users/:id'
+  
+  has_one :profile
 end
 
 class Profile < MotionResource::Base

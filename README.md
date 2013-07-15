@@ -57,6 +57,11 @@ Pass a second block parameter to capture error information:
 
 `response` will be an instance of [BubbleWrap::HTTP::Response](http://rdoc.info/github/rubymotion/BubbleWrap/master/file/README.md#HTTP)
 
+## Reachability
+
+It's important to check the reachability status of a host before making a request, or you may get intermitent connectivity errors.
+For an example of how to do so, see `when_reachable` in [TinyMon](https://github.com/tkadauke/TinyMon).
+
 ## Setup
 
 You can configure every model separately; however you will most likely want to configure things like the root_url the same for every model:

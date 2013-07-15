@@ -52,6 +52,7 @@ module MotionResource
         url.insert_extension!(self.extension)
 
         logger.log "#{method.upcase} #{url}"
+        logger.log "payload: #{options[:payload]}" if options[:payload]
 
         BubbleWrap::HTTP.send(method, url, options) do |response|
           if response.ok?
