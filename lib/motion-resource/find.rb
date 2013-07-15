@@ -2,7 +2,7 @@ module MotionResource
   class Base
     class << self
       def find(id, params = {}, &block)
-        fetch_member(self.url_encoder.fill_url_params(member_url_or_default, params.merge(id: id) ), &block)
+        fetch_member(self.url_encoder.fill_url_params(member_url_or_default, params.merge(id: id)), &block)
       end
 
       def find_all(params = {}, &block)

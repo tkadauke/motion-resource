@@ -9,7 +9,7 @@ describe "url encoder" do
   end
 
   it "should fill url params from params hash" do
-    string = @encoder.fill_url_params("accounts/:id/users/:name", { id: 10, name: 'john' } )
+    string = @encoder.fill_url_params("accounts/:id/users/:name", {id: 10, name: 'john' } )
     string.should == "accounts/10/users/john"
   end
 
@@ -24,17 +24,17 @@ describe "url encoder" do
   end
 
   it "should add a query string for non-url params" do
-    string = @encoder.build_query_string("accounts/fabulous",{foo: 10, moo: "rar"})
+    string = @encoder.build_query_string("accounts/fabulous", {foo: 10, moo: "rar"})
     string.should == "accounts/fabulous?foo=10&moo=rar"
   end
 
   it "should not add a ? when building a query string if it exists" do
-    string = @encoder.build_query_string("accounts/fabulous?",{foo: 10, moo: "rar"})
+    string = @encoder.build_query_string("accounts/fabulous?", {foo: 10, moo: "rar"})
     string.should == "accounts/fabulous?foo=10&moo=rar"
   end
 
   it "should tag new query params onto existing ones" do
-    string = @encoder.build_query_string("accounts/fabulous?moo=rar",{foo: 10})
+    string = @encoder.build_query_string("accounts/fabulous?moo=rar", {foo: 10})
     string.should == "accounts/fabulous?moo=rar&foo=10"
   end
 

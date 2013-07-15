@@ -1,7 +1,7 @@
 module MotionResource
   class UrlEncoder
 
-    def fill_url_params( url, params = {}, delegate = nil)
+    def fill_url_params(url, params = {}, delegate = nil)
       params ||= {}
       url = url.split( '/' ).collect { |path|
         ret = path

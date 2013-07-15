@@ -31,7 +31,7 @@ module MotionResource
 
       protected
 
-      def decode_response( response, url, options )
+      def decode_response(response, url, options)
         if response.ok?
           body = response.body.to_str.strip rescue nil
           logger.log "response: #{body}"
@@ -75,7 +75,7 @@ module MotionResource
         logger.log "payload: #{options[:payload]}" if options[:payload]
 
         BubbleWrap::HTTP.send(method, url, options) do |response|
-          block.call response, decode_response( response, url, options )
+          block.call response, decode_response(response, url, options)
         end
       end
     end

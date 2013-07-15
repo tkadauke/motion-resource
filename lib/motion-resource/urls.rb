@@ -12,7 +12,7 @@ module MotionResource
       def custom_urls(params = {})
         params.each do |name, url_format|
           define_method name do | method_params = {} |
-            self.url_encoder.fill_url_params( url_format, method_params, self )
+            self.url_encoder.fill_url_params(url_format, method_params, self)
           end
           define_singleton_method name do
             url_format
