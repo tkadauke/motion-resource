@@ -1,5 +1,4 @@
 module MotionResource
-
   class UrlEncoder
 
     def fill_url_params( url, params = {}, delegate = nil)
@@ -45,5 +44,4 @@ module MotionResource
     end
 
   end
-
 end

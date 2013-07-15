@@ -9,7 +9,7 @@ describe "url encoder" do
   end
 
   it "should fill url params from params hash" do
-    string = @encoder.fill_url_params( "accounts/:id/users/:name", { id: 10, name: 'john' } )
+    string = @encoder.fill_url_params("accounts/:id/users/:name", { id: 10, name: 'john' } )
     string.should == "accounts/10/users/john"
   end
 
@@ -42,7 +42,7 @@ describe "url encoder" do
     obj = DelegateObject.new
     obj.id = 10
     obj.name = 'john'
-    string = @encoder.fill_url_params( "accounts/:id/users/:name", {}, obj)
+    string = @encoder.fill_url_params("accounts/:id/users/:name", {}, obj)
     string.should == "accounts/10/users/john"
   end
 

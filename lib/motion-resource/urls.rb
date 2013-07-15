@@ -31,11 +31,11 @@ module MotionResource
     end
 
     def collection_url(params = {})
-      self.class.url_encoder.fill_url_params( self.class.collection_url_or_default, params, self )
+      self.class.url_encoder.fill_url_params(self.class.collection_url_or_default, params, self)
     end
 
     def member_url(params = {})
-      self.class.url_encoder.fill_url_params( self.class.member_url_or_default, params, self )
+      self.class.url_encoder.fill_url_params(self.class.member_url_or_default, params, self)
     end
   end
 end
