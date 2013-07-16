@@ -3,7 +3,6 @@ class DelegateObject
 end
 
 describe "url encoder" do
-
   before do
      @encoder = MotionResource::Base.url_encoder
   end
@@ -53,5 +52,4 @@ describe "url encoder" do
   it "should not crash when params hash contains an unused value" do
     lambda { @encoder.fill_url_params("accounts", {foo:'bar'}) }.should.not.raise
   end
-
 end
