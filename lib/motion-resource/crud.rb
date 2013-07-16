@@ -60,7 +60,7 @@ module MotionResource
         hash
       end
       
-      { self.class.name.underscore => attributes.merge(includes) }
+      { self.class.json_root => attributes.merge(includes) }
     end
   end
 end
