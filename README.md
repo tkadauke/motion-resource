@@ -51,10 +51,10 @@ A different url encoding implementation can be substituted by setting MotionReso
 For instance to include the fixed parameter 'foo' on every request:
 
     class CustomEncoder < MotionResource::UrlEncoder
-        def build_query_string(url, params = {})
-            params[:foo] => 42
-            super(url,params)
-        end
+      def build_query_string(url, params = {})
+        params[:foo] => 42
+        super(url, params)
+      end
     end
     MotionResource::Base.url_encoder = CustomEncoder.new
 
