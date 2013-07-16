@@ -15,8 +15,6 @@ module MotionResource
     end
   
     def create(options = {}, &block)
-      # weird heisenbug: Specs crash without that line :(
-      dummy = self
       run_callbacks :create do
         self.class.post(collection_url, :payload => build_payload(options)) do |response, json|
           self.class.request_block_call(block, json.blank? ? self : self.class.instantiate(json), response) if block

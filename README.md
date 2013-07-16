@@ -2,6 +2,8 @@
 
 This is a library for using JSON APIs in RubyMotion apps. It is based on [RemoteModel](https://github.com/clayallsopp/remote_model), however it is an almost complete rewrite. Also, it is inspired by ActiveResource.
 
+This gem needs RubyMotion version 2.3 or higher.
+
 ## Installation
 
 Add MotionResource to your Gemfile, like this:
