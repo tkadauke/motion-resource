@@ -9,6 +9,10 @@ class ColorViewController < UITableViewController
   
   def viewDidLoad
     load_data
+    
+    reload_button = UIBarButtonItem.alloc.initWithTitle("Reload", style:UIBarButtonItemStyleBordered, target:self, action:'load_data')
+    self.navigationItem.rightBarButtonItems = [reload_button]
+    
     super
   end
   
