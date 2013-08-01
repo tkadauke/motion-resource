@@ -52,7 +52,7 @@ For instance to include the fixed parameter 'foo' on every request:
 
     class CustomEncoder < MotionResource::UrlEncoder
       def build_query_string(url, params = {})
-        params[:foo] => 42
+        params[:foo] = 42
         super(url, params)
       end
     end
