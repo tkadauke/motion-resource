@@ -14,34 +14,39 @@ Add MotionResource to your Gemfile, like this:
 
 Consider this example for a fictional blog API.
 
-    class User < MotionResource::Base
-      attr_accessor :id
 
-      has_many :posts
+```ruby
+class User < MotionResource::Base
+  attr_accessor :id
 
-      self.collection_url = "users"
-      self.member_url = "users/:id"
-    end
+  has_many :posts
 
-    class Post < MotionResource::Base
-      attr_accessor :id
-      attribute :user_id, :title, :text
+  self.collection_url = "users"
+  self.member_url = "users/:id"
+end
 
-      belongs_to :user
+class Post < MotionResource::Base
+  attr_accessor :id
+  attribute :user_id, :title, :text
 
-      self.collection_url = "users/:user_id/posts"
-      self.member_url = "users/:user_id/posts/:id"
-    end
+  belongs_to :user
+
+  self.collection_url = "users/:user_id/posts"
+  self.member_url = "users/:user_id/posts/:id"
+end
+```
 
 Only attributes declared with `attribute` are transmitted on save. I.e. attributes declared with `attr_accessor` are considered read-only with respect to the JSON API.
 
 Now, we can access a user's posts like that:
 
-    User.find(1) do |user|
-      user.posts do |posts|
-        puts posts.inspect
-      end
-    end
+```ruby
+User.find(1) do |user|
+  user.posts do |posts|
+    puts posts.inspect
+  end
+end
+```
 
 Note that the blocks are called asynchronously.
 
@@ -50,25 +55,29 @@ Note that the blocks are called asynchronously.
 A different url encoding implementation can be substituted by setting MotionResource::Base.url_encoder.
 For instance to include the fixed parameter 'foo' on every request:
 
-    class CustomEncoder < MotionResource::UrlEncoder
-      def build_query_string(url, params = {})
-        params[:foo] = 42
-        super(url, params)
-      end
-    end
-    MotionResource::Base.url_encoder = CustomEncoder.new
+```ruby
+class CustomEncoder < MotionResource::UrlEncoder
+  def build_query_string(url, params = {})
+    params[:foo] = 42
+    super(url, params)
+  end
+end
+MotionResource::Base.url_encoder = CustomEncoder.new
+```
 
 ## Error Handling
 
 Pass a second block parameter to capture error information:
 
-    User.find_all do |users, response|
-      if response.ok?
-        puts users.inspect
-      else
-        App.alert response.error_message
-      end
-    end
+```ruby
+User.find_all do |users, response|
+  if response.ok?
+    puts users.inspect
+  else
+    App.alert response.error_message
+  end
+end
+```
 
 `response` will be an instance of [BubbleWrap::HTTP::Response](http://rdoc.info/github/rubymotion/BubbleWrap/master/file/README.md#HTTP)
 
@@ -81,7 +90,9 @@ For an example of how to do so, see `when_reachable` in [TinyMon](https://github
 
 You can configure every model separately; however you will most likely want to configure things like the root_url the same for every model:
 
-    MotionResource::Base.root_url = "http://localhost:3000/"
+```ruby
+MotionResource::Base.root_url = "http://localhost:3000/"
+```
 
 Don't forget the trailing '/' here!
 
