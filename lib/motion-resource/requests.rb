@@ -1,6 +1,6 @@
 module MotionResource
   class Base
-    HTTP_METHODS = [:get, :post, :put, :delete]
+    HTTP_METHODS = [:get, :patch, :post, :put, :delete]
 
     HTTP_METHODS.each do |method|
       define_method method do |*args, &block|
@@ -11,6 +11,10 @@ module MotionResource
     class << self
       def get(url, params = {}, &block)
         http_call(:get, url, params, &block)
+      end
+
+      def patch(url, params = {}, &block)
+        http_call(:patch, url, params, &block)
       end
 
       def post(url, params = {}, &block)
