@@ -6,6 +6,11 @@ describe "requests" do
     Comment.should.respond_to :get
   end
 
+  it "should define PATCH method on instance and class" do
+    Comment.new.should.respond_to :patch
+    Comment.should.respond_to :patch
+  end
+
   it "should define POST method on instance and class" do
     Comment.new.should.respond_to :post
     Comment.should.respond_to :post
@@ -78,6 +83,18 @@ describe "requests" do
 
     wait_max 1.0 do
       @result["text"].should == "Hello"
+    end
+  end
+
+  it "should patch" do
+    stub_request(:patch, "http://example.com/comments.json").to_return(json: { id: 10 })
+    Comment.patch("comments") do |response, json|
+      @result = json
+      resume
+    end
+
+    wait_max 1.0 do
+      @result.should.not.be.nil
     end
   end
 
