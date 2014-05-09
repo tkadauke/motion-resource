@@ -28,7 +28,7 @@ module MotionResource
             if json.class == Array
               arr_rep = json
             elsif json.class == Hash
-              root = self.json_root
+              root = self.json_root.pluralize
               if json.has_key?(root) || json.has_key?(root.to_sym)
                 arr_rep = json[root] || json[root.to_sym]
               end

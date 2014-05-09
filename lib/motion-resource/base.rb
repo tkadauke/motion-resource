@@ -47,7 +47,7 @@ module MotionResource
       end
       
       def json_root
-        self.name.underscore.pluralize
+        self.name.underscore
       end
 
       def identity_map
