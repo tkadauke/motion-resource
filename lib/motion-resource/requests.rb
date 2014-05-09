@@ -35,17 +35,17 @@ module MotionResource
 
       protected
 
-      def decode_response(response, url, options)
-        if response.success?
-          body = response.object
-          logger.log "response: #{body}"
+      def decode_response(result, url, options)
+        if result.success?
+          body = result.object
+          logger.log "result: #{body}"
           if body.blank?
             return {}
           else
             return BubbleWrap::JSON.parse(body)
           end
         else
-          if response.operation.response.statusCode.to_s =~ /401/ && @on_auth_failure
+          if result.operation.response.statusCode.to_s =~ /401/ && @on_auth_failure
             @on_auth_failure.call
           end
           return nil
