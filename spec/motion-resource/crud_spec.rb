@@ -62,7 +62,7 @@ describe "crud" do
       end
     
       wait_max 1.0 do
-        @response.should.not.be.ok
+        @response.should.not.be.success
       end
     end
     
@@ -74,7 +74,7 @@ describe "crud" do
       end
     
       wait_max 1.0 do
-        @response.should.be.ok
+        @response.should.be.success
       end
     end
     
@@ -86,7 +86,7 @@ describe "crud" do
       end
     
       wait_max 1.0 do
-        @response.should.be.ok
+        @response.should.be.success
       end
     end
     
@@ -157,7 +157,7 @@ describe "crud" do
       end
     
       wait_max 1.0 do
-        @response.should.not.be.ok
+        @response.should.not.be.success
       end
     end
     
@@ -170,7 +170,7 @@ describe "crud" do
       end
     
       wait_max 1.0 do
-        @response.should.be.ok
+        @response.should.be.success
       end
     end
   end
@@ -210,7 +210,7 @@ describe "crud" do
       end
     
       wait_max 1.0 do
-        @response.should.not.be.ok
+        @response.should.not.be.success
       end
     end
   end
@@ -250,7 +250,7 @@ describe "crud" do
       end
     
       wait_max 1.0 do
-        @response.should.not.be.ok
+        @response.should.not.be.success
       end
     end
   end

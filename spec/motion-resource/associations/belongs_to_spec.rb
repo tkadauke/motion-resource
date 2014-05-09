@@ -88,7 +88,7 @@ describe "belongs_to" do
       end
       
       wait_max 1.0 do
-        @response.should.be.ok
+        @response.should.be.success
       end
     end
 
@@ -101,7 +101,7 @@ describe "belongs_to" do
         resume
       end
       wait_max 1.0 do
-        @response.should.be.ok
+        @response.should.be.success
         @account.class.should == User
       end
     end
