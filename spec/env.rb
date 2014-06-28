@@ -2,19 +2,19 @@ MotionResource::Base.root_url = 'http://example.com/'
 
 class Post < MotionResource::Base
   attr_accessor :text
-  
+
   self.member_url = 'posts/:id'
-  
+
   has_many :comments
   has_many :parent_posts, :class_name => 'Post'
 end
 
 class Comment < MotionResource::Base
   attr_accessor :post_id, :account_id, :text
-  
+
   self.member_url = 'comments/:id'
   self.collection_url = 'comments'
-  
+
   belongs_to :post
   belongs_to :account, :class_name => 'User'
   scope :recent, :url => 'comments/recent'
@@ -29,7 +29,7 @@ end
 
 class User < MotionResource::Base
   self.member_url = 'users/:id'
-  
+
   has_one :profile
 end
 
