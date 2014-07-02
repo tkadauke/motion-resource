@@ -74,6 +74,7 @@ module MotionResource
         params = nil if params.empty?
         AFMotion::JSON.send(method, url, params) do |response|
           def response.ok?
+            NSLog "[DEPRECATED] `ok?` is deprecated.  Please use `success?` instead."
             success?
           end
           block.call response, decode_response(response)
