@@ -162,33 +162,32 @@ describe "crud" do
     end
 
 
-    #it "should include association" do
-      #pending
-      #stub_request(:put, "http://example.com/posts/10.json").to_return(body: "")
-      #Post.instantiate(:id => 10).update(:include => :comments) do |result, response|
-        #@response = response
-        #resume
-      #end
+    it "should include association" do
+      stub_request(:put, "http://example.com/posts/10.json").to_return(body: "")
+      Post.instantiate(:id => 10).update(:include => :comments) do |result, response|
+        @response = response
+        resume
+      end
 
-      #wait_max 1.0 do
-        #@response.should.be.success
-      #end
-    #end
+      wait_max 1.0 do
+        @response.should.be.success
+      end
+    end
   end
 
   describe "destroy" do
-    #it "should destroy with json in response" do
-      #stub_request(:delete, "http://example.com/comments/10.json").to_return(json: { id: 10 })
-      #comment = Comment.instantiate(:id => 10)
-      #comment.destroy do |result|
-        #@result = result
-        #resume
-      #end
+    it "should destroy with json in response" do
+      stub_request(:delete, "http://example.com/comments/10.json").to_return(json: { id: 10 })
+      comment = Comment.instantiate(:id => 10)
+      comment.destroy do |result|
+        @result = result
+        resume
+      end
 
-      #wait_max 1.0 do
-        #@result.should.not.be.nil
-      #end
-    #end
+      wait_max 1.0 do
+        @result.should.not.be.nil
+      end
+    end
 
     it "should destroy without json in response" do
       stub_request(:delete, "http://example.com/comments/10.json").to_return(body: "")
