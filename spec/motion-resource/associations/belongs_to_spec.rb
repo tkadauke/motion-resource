@@ -1,15 +1,6 @@
 describe "belongs_to" do
   extend WebStub::SpecHelpers
 
-  before do
-    disable_network_access!
-  end
-
-  after do
-    enable_network_access!
-    reset_stubs
-  end
-
   it "should define reader" do
     Comment.new.should.respond_to :post
   end
@@ -45,30 +36,6 @@ describe "belongs_to" do
       comment.post = post
       comment.post.should == post
     end
-
-     #it "should use mutable containers" do
-      #url = "http://example.com/"
-      #stub_request(:get, url).
-        #to_return(json: {"data" => ["thing"]}, delay: 0.3)
-
-      #AFMotion::JSON.get(url) do |result|
-        #@object = result.object
-        #resume
-      #end
-
-      #wait_max 1.0 do
-        #array = @object['data']
-        #array << 'derp'
-        #array.count.should == 2
-
-        #@object['hello'] = 'world'
-        #@object.count.should == 2
-
-        #@object.delete('data')
-        #@object.count.should == 1
-      #end
-    #end
-
 
     it "should fetch resource when called with a block" do
       @comment = Comment.new(:post_id => 1)
