@@ -161,7 +161,6 @@ describe "crud" do
       end
     end
 
-
     it "should include association" do
       stub_request(:put, "http://example.com/posts/10.json").to_return(body: "")
       Post.instantiate(:id => 10).update(:include => :comments) do |result, response|
