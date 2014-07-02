@@ -8,7 +8,7 @@ module MotionResource
       def find_all(params = {}, &block)
         fetch_collection(self.url_encoder.fill_url_params(collection_url_or_default, params), &block)
       end
-      
+
       def fetch_member(url, &block)
         get(url) do |response, json|
           if response.success?
@@ -49,7 +49,7 @@ module MotionResource
           end
         end
       end
-      
+
       def request_block_call(block, default_arg, extra_arg)
         if block
           if block.arity == 1

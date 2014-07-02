@@ -54,17 +54,18 @@ describe "has_one" do
   end
 
   describe "piggybacking" do
-    #TODO
-    #it "should set association when returned with model" do
-      #stub_request(:get, "http://example.com/users/1.json").to_return(json: { id: 1, profile: { id: 2, name: 'John' } })
-      #User.find(1) do |result|
-        #@result = result
-        #resume
-      #end
+    it "should set association when returned with model" do
+      stub_request(:get, "http://example.com/users/1.json")
+        .to_return(json: { id: 1, profile: { id: 2, name: 'John' } })
 
-      #wait_max 1.0 do
-        #@result.profile.name.should == 'John'
-      #end
-    #end
+      User.find(1) do |result|
+        @result = result
+        resume
+      end
+
+      wait_max 1.0 do
+        @result.profile.name.should == 'John'
+      end
+    end
   end
 end

@@ -28,19 +28,18 @@ describe "crud" do
       end
     end
 
-    #it "should create without json in response" do
-      #pending
-      #stub_request(:post, "http://example.com/comments.json").to_return(body: "")
-      #@comment = Comment.new
-      #@comment.create do |result|
-        #@result = result
-        #resume
-      #end
+    it "should create without json in response" do
+      stub_request(:post, "http://example.com/comments.json").to_return(body: "")
+      @comment = Comment.new
+      @comment.create do |result|
+        @result = result
+        resume
+      end
 
-      #wait_max 1.0 do
-        #@result.should == @comment
-      #end
-    #end
+      wait_max 1.0 do
+        @result.should == @comment
+      end
+    end
 
     it "should create with empty json response" do
       stub_request(:post, "http://example.com/comments.json").to_return(json: {})
@@ -55,45 +54,41 @@ describe "crud" do
       end
     end
 
-    #TODO
-    #it "should give HTTP response to block" do
-      #stub_request(:post, "http://example.com/comments.json").to_return(json: {}, status_code: 404)
-      #Comment.new.create do |result, response|
-        #@response = response
-        #resume
-      #end
+    it "should give HTTP response to block" do
+      stub_request(:post, "http://example.com/comments.json").to_return(json: {}, status_code: 404)
+      Comment.new.create do |result, response|
+        @response = response
+        resume
+      end
 
-      #wait_max 1.0 do
-        #@response.should.not.be.success
-      #end
-    #end
+      wait_max 1.0 do
+        @response.should.not.be.success
+      end
+    end
 
-    #TODO
-    #it "should include association" do
-      #stub_request(:post, "http://example.com/posts.json").to_return(body: "")
-      #Post.new.create(:include => :comments) do |result, response|
-        #@response = response
-        #resume
-      #end
+    it "should include association" do
+      stub_request(:post, "http://example.com/posts.json").to_return(body: "")
+      Post.new.create(:include => :comments) do |result, response|
+        @response = response
+        resume
+      end
 
-      #wait_max 1.0 do
-        #@response.should.be.success
-      #end
-    #end
+      wait_max 1.0 do
+        @response.should.be.success
+      end
+    end
 
-    #TODO
-    #it "should include association with _attributes suffix" do
-      #pending
-      #stub_request(:post, "http://example.com/posts.json").to_return(body: "")
-      #Post.new.create(:include => :comments_attributes) do |result, response|
-        #@response = response
-        #resume
-      #end
+    it "should include association with _attributes suffix" do
+      stub_request(:post, "http://example.com/posts.json").to_return(body: "")
+      Post.new.create(:include => :comments_attributes) do |result, response|
+        @response = response
+        resume
+      end
 
-      #wait_max 1.0 do
-        #@response.should.be.success
-      #end
-    #end
+      wait_max 1.0 do
+        @response.should.be.success
+      end
+    end
 
     it "should raise error when included association is not found" do
       stub_request(:post, "http://example.com/posts.json").to_return(body: "")
@@ -183,7 +178,6 @@ describe "crud" do
   end
 
   describe "destroy" do
-    #TODO
     #it "should destroy with json in response" do
       #stub_request(:delete, "http://example.com/comments/10.json").to_return(json: { id: 10 })
       #comment = Comment.instantiate(:id => 10)
@@ -224,19 +218,18 @@ describe "crud" do
   end
 
   describe "reload" do
-    #TODO
-    #it "should reload with json in response" do
-      #stub_request(:get, "http://example.com/comments/10.json").to_return(json: { id: 10 })
-      #comment = Comment.instantiate(:id => 10)
-      #comment.reload do |result|
-        #@result = result
-        #resume
-      #end
+    it "should reload with json in response" do
+      stub_request(:get, "http://example.com/comments/10.json").to_return(json: { id: 10 })
+      comment = Comment.instantiate(:id => 10)
+      comment.reload do |result|
+        @result = result
+        resume
+      end
 
-      #wait_max 1.0 do
-        #@result.should.not.be.nil
-      #end
-    #end
+      wait_max 1.0 do
+        @result.should.not.be.nil
+      end
+    end
 
     it "should reload without json in response" do
       stub_request(:get, "http://example.com/comments/10.json").to_return(body: "")

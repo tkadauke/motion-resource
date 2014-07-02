@@ -1,6 +1,15 @@
 describe "belongs_to" do
   extend WebStub::SpecHelpers
 
+  before do
+    disable_network_access!
+  end
+
+  after do
+    enable_network_access!
+    reset_stubs
+  end
+
   it "should define reader" do
     Comment.new.should.respond_to :post
   end
@@ -21,10 +30,9 @@ describe "belongs_to" do
   end
 
   describe "reader" do
-    extend WebStub::SpecHelpers
-
     before do
-      stub_request(:get, "http://example.com/posts/1.json").to_return(json: { id: 1, text: 'Hello' })
+      stub_request(:get, "http://example.com/posts/1.json")
+        .to_return(json: { id: 1, text: 'Hello' }, delay: 0.3)
     end
 
     it "should by default return nil when called without a block" do
@@ -38,17 +46,41 @@ describe "belongs_to" do
       comment.post.should == post
     end
 
-    #it "should fetch resource when called with a block" do
-      #@comment = Comment.new(:post_id => 1)
-      #@comment.post do |result|
-        #@result = result
+     #it "should use mutable containers" do
+      #url = "http://example.com/"
+      #stub_request(:get, url).
+        #to_return(json: {"data" => ["thing"]}, delay: 0.3)
+
+      #AFMotion::JSON.get(url) do |result|
+        #@object = result.object
         #resume
       #end
 
       #wait_max 1.0 do
-        #@result.text.should == 'Hello'
+        #array = @object['data']
+        #array << 'derp'
+        #array.count.should == 2
+
+        #@object['hello'] = 'world'
+        #@object.count.should == 2
+
+        #@object.delete('data')
+        #@object.count.should == 1
       #end
     #end
+
+
+    it "should fetch resource when called with a block" do
+      @comment = Comment.new(:post_id => 1)
+      @comment.post do |result|
+        @result = result
+        resume
+      end
+
+      wait_max 1.0 do
+        @result.text.should == 'Hello'
+      end
+    end
 
     it "should return cached resource immediately if exist when called with a block" do
       post = Post.new
@@ -80,46 +112,43 @@ describe "belongs_to" do
       end
     end
 
-    #TODO
-    #it "should give HTTP response to block" do
-      #@comment = Comment.new(:post_id => 1)
-      #@comment.post do |results, response|
-        #@response = response
-        #resume
-      #end
+    it "should give HTTP response to block" do
+      @comment = Comment.new(:post_id => 1)
+      @comment.post do |results, response|
+        @response = response
+        resume
+      end
 
-      #wait_max 1.0 do
-        #@response.should.be.success
-      #end
-    #end
+      wait_max 1.0 do
+        @response.should.be.success
+      end
+    end
 
-    #TODO
-    #it "should give HTTP response to block" do
-      #@comment = Comment.new(:post_id => 1)
-      #@comment.post do |results, response|
-        #@response = response
-        #resume
-      #end
+    it "should give HTTP response to block" do
+      @comment = Comment.new(:post_id => 1)
+      @comment.post do |results, response|
+        @response = response
+        resume
+      end
 
-      #wait_max 1.0 do
-        #@response.should.be.success
-      #end
-    #end
+      wait_max 1.0 do
+        @response.should.be.success
+      end
+    end
 
-    #TODO
-    #it "should return correct type of object" do
-      #stub_request(:get, "http://example.com/users/1.json").to_return(json: { id: 1, text: 'Hello' })
-      #@comment = Comment.new(:account_id => 1)
-      #@comment.account do |results, response|
-        #@account = results
-        #@response = response
-        #resume
-      #end
-      #wait_max 1.0 do
-        #@response.should.be.success
-        #@account.class.should == User
-      #end
-    #end
+    it "should return correct type of object" do
+      stub_request(:get, "http://example.com/users/1.json").to_return(json: { id: 1, text: 'Hello' })
+      @comment = Comment.new(:account_id => 1)
+      @comment.account do |results, response|
+        @account = results
+        @response = response
+        resume
+      end
+      wait_max 1.0 do
+        @response.should.be.success
+        @account.class.should == User
+      end
+    end
 
   end
 
@@ -171,17 +200,16 @@ describe "belongs_to" do
   end
 
   describe "piggybacking" do
-    #TODO
-    #it "should set association when returned with model" do
-      #stub_request(:get, "http://example.com/comments/1.json").to_return(json: { id: 1, post: { id: 2, text: 'Hello' } })
-      #Comment.find(1) do |result|
-        #@result = result
-        #resume
-      #end
+    it "should set association when returned with model" do
+      stub_request(:get, "http://example.com/comments/1.json").to_return(json: { id: 1, post: { id: 2, text: 'Hello' } })
+      Comment.find(1) do |result|
+        @result = result
+        resume
+      end
 
-      #wait_max 1.0 do
-        #@result.post.text.should == 'Hello'
-      #end
-    #end
+      wait_max 1.0 do
+        @result.post.text.should == 'Hello'
+      end
+    end
   end
 end
