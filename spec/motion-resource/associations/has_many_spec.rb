@@ -123,6 +123,7 @@ describe "has_many" do
 
       wait_max 1.0 do
         @response.should.be.success
+        @response.should.be.ok
       end
     end
   end

@@ -73,6 +73,9 @@ module MotionResource
         params = (options[:payload] ? options[:payload] : options)
         params = nil if params.empty?
         AFMotion::JSON.send(method, url, params) do |response|
+          def response.ok?
+            success?
+          end
           block.call response, decode_response(response)
         end
       end

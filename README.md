@@ -75,7 +75,7 @@ Pass a second block parameter to capture error information:
 
 ```ruby
 User.find_all do |users, response|
-  if response.success?
+  if response.success? # response.ok? also works
     puts users.inspect
   else
     App.alert response.error_message
