@@ -15,6 +15,6 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_dependency 'afmotion', "~> 2.3.1"
-  s.add_dependency 'motion-support', '>= 0.2.6'
+  s.add_dependency 'motion-support', '>= 0.2.3'
   s.add_development_dependency 'rake'
 end
