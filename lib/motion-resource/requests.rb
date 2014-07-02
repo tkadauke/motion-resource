@@ -33,25 +33,6 @@ module MotionResource
         @on_auth_failure = block
       end
 
-      protected
-
-      def decode_response(response, url, options)
-        if response.success?
-          body = response.object
-          logger.log "response: #{body}"
-          if body.blank?
-            return {}
-          else
-            return BubbleWrap::JSON.parse(body)
-          end
-        else
-          if response.operation.response.statusCode.to_s =~ /401/ && @on_auth_failure
-            @on_auth_failure.call
-          end
-          return nil
-        end
-      end
-
       private
 
       def complete_url(fragment)
@@ -61,7 +42,7 @@ module MotionResource
         (self.root_url || MotionResource::Base.root_url) + fragment
       end
 
-      def object_to_yield(response)
+      def decode_response(response)
         if response.success?
           response.body == "" ? {} : response.object
         else
@@ -91,27 +72,8 @@ module MotionResource
 
         params = (options[:payload] ? options[:payload] : options)
         params = nil if params.empty?
-        case method
-        when :get
-          AFMotion::JSON.get(url) do |response|
-            block.call response, object_to_yield(response)
-          end
-        when :patch
-          AFMotion::JSON.patch(url, params) do |response|
-            block.call response, object_to_yield(response)
-          end
-        when :post
-          AFMotion::JSON.post(url, params) do |response|
-            block.call response, object_to_yield(response)
-          end
-        when :put
-          AFMotion::JSON.put(url, params) do |response|
-            block.call response, object_to_yield(response)
-          end
-        when :delete
-          AFMotion::JSON.delete(url, params) do |response|
-            block.call response, object_to_yield(response)
-          end
+        AFMotion::JSON.send(method, url, params) do |response|
+          block.call response, decode_response(response)
         end
       end
     end
