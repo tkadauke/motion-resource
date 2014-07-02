@@ -123,19 +123,18 @@ describe "crud" do
       end
     end
 
-    #it "should update without json in response" do
-      #pending
-      #stub_request(:put, "http://example.com/comments/10.json").to_return(body: "")
-      #@comment = Comment.instantiate(:id => 10)
-      #@comment.update do |result|
-        #@result = result
-        #resume
-      #end
+    it "should update without json in response" do
+      stub_request(:put, "http://example.com/comments/10.json").to_return(body: "")
+      @comment = Comment.instantiate(:id => 10)
+      @comment.update do |result|
+        @result = result
+        resume
+      end
 
-      #wait_max 1.0 do
-        #@result.should.be == @comment
-      #end
-    #end
+      wait_max 1.0 do
+        @result.should.be == @comment
+      end
+    end
 
     it "should update with empty json response" do
       stub_request(:put, "http://example.com/comments/10.json").to_return(json: {})
