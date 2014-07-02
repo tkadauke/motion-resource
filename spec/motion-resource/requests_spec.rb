@@ -122,18 +122,17 @@ describe "requests" do
     end
   end
 
-  #TODO
-  #it "should delete" do
-    #stub_request(:delete, "http://example.com/comments/10.json").to_return(json: { id: 10 })
-    #Comment.new.delete("comments/10") do |response, json|
-      #@result = json
-      #resume
-    #end
+  it "should delete" do
+    stub_request(:delete, "http://example.com/comments/10.json").to_return(json: { id: 10 })
+    Comment.new.delete("comments/10") do |response, json|
+      @result = json
+      resume
+    end
 
-    #wait_max 1.0 do
-      #@result.should.not.be.nil
-    #end
-  #end
+    wait_max 1.0 do
+      @result.should.not.be.nil
+    end
+  end
 
   it "should call a block given to on_auth_failure on 401" do
     stub_request(:get, "http://example.com/comments/10.json").to_return(status_code: 401)

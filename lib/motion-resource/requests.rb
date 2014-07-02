@@ -90,6 +90,7 @@ module MotionResource
         logger.log "payload: #{options[:payload]}" if options[:payload]
 
         params = (options[:payload] ? options[:payload] : options)
+        params = nil if params.empty?
         case method
         when :get
           AFMotion::JSON.get(url) do |response|
