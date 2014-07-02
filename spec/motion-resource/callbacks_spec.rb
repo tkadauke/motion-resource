@@ -2,7 +2,7 @@ module CallbackSpec
   class Model < MotionResource::Base
     self.member_url = 'models/:id'
     self.collection_url = 'models'
-    
+
     before_create { |m| m.history << "before_create" }
     after_create { |m| m.history << "after_create" }
     before_save { |m| m.history << "before_save" }
@@ -11,7 +11,7 @@ module CallbackSpec
     after_update { |m| m.history << "after_update" }
     before_destroy { |m| m.history << "before_destroy" }
     after_destroy { |m| m.history << "after_destroy" }
-    
+
     def history
       @history ||= []
     end
@@ -57,7 +57,7 @@ describe "base" do
         @model.history.should == ['before_update', 'after_update']
       end
     end
-    
+
     it "should run destroy callbacks" do
       stub_request(:delete, "http://example.com/models/10.json").to_return(json: {})
       @model = CallbackSpec::Model.instantiate(:id => 10)

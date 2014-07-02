@@ -1,7 +1,7 @@
 module MotionResource
   class Base
     include MotionSupport::Callbacks
-    
+
     define_callbacks :create, :save, :update, :destroy
 
     [:create, :save, :update, :destroy].each do |callback|

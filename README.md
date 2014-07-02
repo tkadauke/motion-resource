@@ -10,6 +10,10 @@ Add MotionResource to your Gemfile, like this:
 
     gem "motion-resource"
 
+Then install AFNetworking:
+
+    rake pod:install
+
 ## Example
 
 Consider this example for a fictional blog API.
@@ -71,7 +75,7 @@ Pass a second block parameter to capture error information:
 
 ```ruby
 User.find_all do |users, response|
-  if response.ok?
+  if response.success? # response.ok? also works
     puts users.inspect
   else
     App.alert response.error_message
@@ -79,7 +83,7 @@ User.find_all do |users, response|
 end
 ```
 
-`response` will be an instance of [BubbleWrap::HTTP::Response](http://rdoc.info/github/rubymotion/BubbleWrap/master/file/README.md#HTTP)
+`response` will be an instance of [AFMotion::HTTP::Response](https://github.com/usepropeller/afmotion/blob/master/README.md)
 
 ## Reachability
 

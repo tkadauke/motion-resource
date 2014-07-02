@@ -8,3 +8,5 @@ resources/*.storyboardc
 Gemfile.lock
 pkg/*
 .dat*
+vendor/Pods
+examples/Colr/vendor/Pods

@@ -33,25 +33,6 @@ module MotionResource
         @on_auth_failure = block
       end
 
-      protected
-
-      def decode_response(response, url, options)
-        if response.ok?
-          body = response.body.to_str.strip rescue nil
-          logger.log "response: #{body}"
-          if body.blank?
-            return {}
-          else
-            return BubbleWrap::JSON.parse(body)
-          end
-        else
-          if response.status_code.to_s =~ /401/ && @on_auth_failure
-            @on_auth_failure.call
-          end
-          return nil
-        end
-      end
-
       private
 
       def complete_url(fragment)
@@ -59,6 +40,17 @@ module MotionResource
           return fragment
         end
         (self.root_url || MotionResource::Base.root_url) + fragment
+      end
+
+      def decode_response(response)
+        if response.success?
+          response.body == "" ? {} : response.object
+        else
+          if response.operation.response.statusCode.to_s =~ /401/ && @on_auth_failure
+            @on_auth_failure.call
+          end
+          nil
+        end
       end
 
       def http_call(method, url, call_options = {}, &block)
@@ -78,8 +70,14 @@ module MotionResource
         logger.log "#{method.upcase} #{url}"
         logger.log "payload: #{options[:payload]}" if options[:payload]
 
-        BubbleWrap::HTTP.send(method, url, options) do |response|
-          block.call response, decode_response(response, url, options)
+        params = (options[:payload] ? options[:payload] : options)
+        params = nil if params.empty?
+        AFMotion::JSON.send(method, url, params) do |response|
+          def response.ok?
+            NSLog "[DEPRECATED] `ok?` is deprecated.  Please use `success?` instead."
+            success?
+          end
+          block.call response, decode_response(response)
         end
       end
     end
