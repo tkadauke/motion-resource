@@ -1,5 +1,9 @@
 describe "has_many" do
   extend WebStub::SpecHelpers
+
+  before do
+    disable_network_access!
+  end
   
   it "should define reader" do
     Post.new.should.respond_to :comments
@@ -24,6 +28,7 @@ describe "has_many" do
     extend WebStub::SpecHelpers
   
     before do
+      disable_network_access!
       stub_request(:get, "http://example.com/posts.json").to_return(json: [{ id: 1, text: 'Whats up?' }])
     end
   
@@ -45,6 +50,7 @@ describe "has_many" do
     extend WebStub::SpecHelpers
     
     before do
+      disable_network_access!
       stub_request(:get, "http://example.com/comments.json").to_return(json: [{ id: 1, text: 'Whats up?' }])
     end
     

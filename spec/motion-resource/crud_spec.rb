@@ -1,5 +1,9 @@
 describe "crud" do
   extend WebStub::SpecHelpers
+
+  before do
+    disable_network_access!
+  end
   
   describe "create" do
     it "should create on save if record is new" do

@@ -1,5 +1,10 @@
 describe "belongs_to" do
   extend WebStub::SpecHelpers
+
+  before do
+    disable_network_access!
+    stub_request(:post, "http://example.com/comments.json").to_return(json: { id: 1 })
+  end
   
   it "should define reader" do
     Comment.new.should.respond_to :post
@@ -24,6 +29,7 @@ describe "belongs_to" do
     extend WebStub::SpecHelpers
     
     before do
+      disable_network_access!
       stub_request(:get, "http://example.com/posts/1.json").to_return(json: { id: 1, text: 'Hello' })
     end
     

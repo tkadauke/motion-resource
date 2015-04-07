@@ -45,8 +45,11 @@ module MotionResource
             return BubbleWrap::JSON.parse(body)
           end
         else
-          if result.operation.response.statusCode.to_s =~ /401/ && @on_auth_failure
-            @on_auth_failure.call
+          logger.log "failed result: #{result.inspect}"
+          if result.operation.response
+            if result.operation.response.statusCode.to_s =~ /401/ && @on_auth_failure
+              @on_auth_failure.call
+            end
           end
           return nil
         end

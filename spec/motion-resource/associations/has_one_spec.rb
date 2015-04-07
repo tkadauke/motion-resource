@@ -1,5 +1,9 @@
 describe "has_one" do
   extend WebStub::SpecHelpers
+
+  before do
+    disable_network_access!
+  end
   
   it "should define reader" do
     User.new.should.respond_to :profile
