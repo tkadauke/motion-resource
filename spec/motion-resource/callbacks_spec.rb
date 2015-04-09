@@ -22,6 +22,10 @@ describe "base" do
   extend WebStub::SpecHelpers
   extend MotionResource::SpecHelpers
 
+  before do
+    disable_network_access!
+  end
+
   describe "callbacks" do
     it "should run create callbacks" do
       stub_request(:post, "http://example.com/models.json").to_return(json: {})

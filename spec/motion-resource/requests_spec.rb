@@ -1,6 +1,10 @@
 describe "requests" do
   extend WebStub::SpecHelpers
 
+  before do
+    disable_network_access!
+  end
+
   it "should define GET method on instance and class" do
     Comment.new.should.respond_to :get
     Comment.should.respond_to :get

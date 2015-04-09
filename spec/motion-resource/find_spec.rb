@@ -1,5 +1,9 @@
 describe "find" do
   extend WebStub::SpecHelpers
+
+  before do
+    disable_network_access!
+  end
   
   it "should find single record" do
     stub_request(:get, "http://example.com/comments/10.json").to_return(json: { id: 10 })

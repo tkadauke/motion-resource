@@ -35,18 +35,21 @@ module MotionResource
 
       protected
 
-      def decode_response(response, url, options)
-        if response.ok?
-          body = response.body.to_str.strip rescue nil
-          logger.log "response: #{body}"
+      def decode_response(result, url, options)
+        if result.success?
+          body = result.object
+          logger.log "result: #{body}"
           if body.blank?
             return {}
           else
             return BubbleWrap::JSON.parse(body)
           end
         else
-          if response.status_code.to_s =~ /401/ && @on_auth_failure
-            @on_auth_failure.call
+          logger.log "failed result: #{result.inspect}"
+          if result.operation.response
+            if result.operation.response.statusCode.to_s =~ /401/ && @on_auth_failure
+              @on_auth_failure.call
+            end
           end
           return nil
         end
@@ -78,7 +81,7 @@ module MotionResource
         logger.log "#{method.upcase} #{url}"
         logger.log "payload: #{options[:payload]}" if options[:payload]
 
-        BubbleWrap::HTTP.send(method, url, options) do |response|
+        AFMotion::HTTP.send(method, url, (options[:payload] ? options[:payload] : options)) do |response|
           block.call response, decode_response(response, url, options)
         end
       end

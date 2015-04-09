@@ -2,6 +2,7 @@ describe "scope" do
   extend WebStub::SpecHelpers
   
   before do
+    disable_network_access!
     stub_request(:get, "http://example.com/comments/recent.json").to_return(json: [{ id: 1, text: 'Whats up?' }])
   end
   
@@ -28,7 +29,7 @@ describe "scope" do
     end
       
     wait_max 1.0 do
-      @response.should.be.ok
+      @response.should.be.success
     end
   end
 end
